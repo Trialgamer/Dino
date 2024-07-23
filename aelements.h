@@ -1,8 +1,8 @@
-typedef uint8_t byte;
+typedef uint8_t BitTexture[];
 
 // Alle animationen & andere bilder
 // Datei braucht 'a', damit variablen benutzbar sind
-byte grossKak[] = {
+BitTexture grossKak = {
   B00100,
   B10100,
   B10100,
@@ -13,7 +13,7 @@ byte grossKak[] = {
   B00100
 };
 //Kleiner Kaktus
-byte kleinKak[] = {
+BitTexture kleinKak = {
   B00000,
   B00000,
   B00000,
@@ -24,7 +24,7 @@ byte kleinKak[] = {
   B00100,
 };
 //Boden
-byte boden[] = {
+BitTexture boden = {
   B11111,
   B10110,
   B00101,
@@ -35,7 +35,7 @@ byte boden[] = {
   B00000,
 };
 //Select Pfeil
-byte arrow[] = {
+BitTexture arrow = {
   B00100,
   B00100,
   B00100,
@@ -46,7 +46,7 @@ byte arrow[] = {
   B00000
 };
 //Geist
-byte geist[] = {
+BitTexture geist = {
   B01110,  
   B11111,  
   B10101,  
@@ -57,7 +57,7 @@ byte geist[] = {
   B00000
 };
 //Geist Laufanimation
-byte laufanimation2[] = {  
+BitTexture laufanimation2 = {  
   B01110,  
   B11111,  
   B10101,  
@@ -68,7 +68,7 @@ byte laufanimation2[] = {
   B00000
 };
 //Geist Springanimation
-byte geistsprung[] = {  
+BitTexture geistsprung = {  
   B11111,  
   B11111,  
   B10101,  
@@ -79,7 +79,7 @@ byte geistsprung[] = {
   B00000
 };
 //1.Figur(die ohne Gesicht)
-byte figurnoface[] = {  
+BitTexture figurnoface = {  
   B01110,
   B10001,  
   B10001,  
@@ -90,7 +90,7 @@ byte figurnoface[] = {
   B11011
 };
 //Laufanimation 1
-byte laufanimationka[] = {  
+BitTexture laufanimationka = {  
   B01110,  
   B10001,  
   B10001,  
@@ -101,7 +101,7 @@ byte laufanimationka[] = {
   B11001
 };
 //Laufanimation 2
-byte cus[] = {  
+BitTexture cus = {  
   B01110,  
   B10001,  
   B10001,  
@@ -112,7 +112,7 @@ byte cus[] = {
   B10011
 };
 //Springanimation
-byte laufmonika[] = {  
+BitTexture laufmonika = {  
   B01110,  
   B10001,  
   B10001,  
@@ -123,7 +123,7 @@ byte laufmonika[] = {
   B00000
 };
 //3.Figur
-byte drittefigur[] = {  
+BitTexture drittefigur = {  
   B11111,  
   B10101,  
   B11111,  
@@ -134,7 +134,7 @@ byte drittefigur[] = {
   B01010
 };
 //Laufanimation 1
-byte laufanimation31[] = {  
+BitTexture laufanimation31 = {  
   B11111,  
   B10101,  
   B11111,  
@@ -145,7 +145,7 @@ byte laufanimation31[] = {
   B11001
 };
 //Laufanimation 2
-byte laufanimation32[] = {  
+BitTexture laufanimation32 = {  
   B11111,  
   B10101,  
   B11111,  
@@ -156,7 +156,7 @@ byte laufanimation32[] = {
   B10001
 };
 //Springanimation
-byte sprunganimation3[] = {  
+BitTexture sprunganimation3 = {  
   B11111,  
   B10101,  
   B11111,  
@@ -167,7 +167,7 @@ byte sprunganimation3[] = {
   B10100
 };
 //4.Figur
-byte Ardolino[] = {  
+BitTexture ardolino = {  
   B11111,  
   B10101,  
   B11111,  
@@ -178,7 +178,7 @@ byte Ardolino[] = {
   B11011
 };
 //Laufanimation 1 von 4 Figur
-byte Laufgitti[] = {  
+BitTexture Laufgitti = {  
   B11111,  
   B10101,  
   B11111,  
@@ -189,7 +189,7 @@ byte Laufgitti[] = {
   B10001
 };
 //Laufanimation 2 von der 4. Figur
-byte laufbertrut[] = {  
+BitTexture laufbertrut = {  
   B11111,  
   B10101,  
   B11111,  
@@ -200,7 +200,7 @@ byte laufbertrut[] = {
   B10010
 };
 //Sprunganimation von der 4. Figur
-byte Sprungbrute[] = {  
+BitTexture Sprungbrute = {  
   B11111,  
   B10101,  
   B11111,  
@@ -211,7 +211,7 @@ byte Sprungbrute[] = {
   B00000
 };
 //Totenschaedel
-byte skull[] = {  
+BitTexture skull = {  
   B00000,  
   B01110,  
   B11111,  
