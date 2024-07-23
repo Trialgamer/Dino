@@ -19,6 +19,8 @@ bool jumping = false;
 
 uint8_t velocity = 0;
 
+uint8_t selectedPlayerSkin = 0;
+
 bool right = false;
 bool down = false;
 bool left = false;
@@ -62,10 +64,17 @@ void setup() {
   lcd.createChar(5, drittefigur);
   lcd.createChar(6, Ardolino);
   lcd.createChar(10, boden);
+  lcd.createChar(11, arrow);
+  lcd.createChar(12, geist);
+  lcd.createChar(13, skull);
+
+  char_sel = true;
 }
 
 void loop() {
   if (char_sel) {
+    press();
+    joystick();
     charMenu();
   }
 
@@ -77,9 +86,9 @@ void loop() {
     drawGround();
     drawCactus();
     drawPlayer();
+    joystick();
     handleJump();
     drawpunktestand();
-    joystick();
     delay(200);
     press();
     collide();
@@ -103,7 +112,7 @@ void drawGround() {
 void drawPlayer() {
   lcd.setCursor(3, playerPos);
   // TODO: Use player sprite instead
-  lcd.print("|");
+  lcd.write(selectedPlayerSkin);
 }
 
 void drawCactus() {
@@ -143,13 +152,12 @@ void joystick() {
   int horz = analogRead(HORZ_PIN);
   int vert = analogRead(VERT_PIN);
   bool pressed = digitalRead(SEL_PIN) == LOW;
-  if (vert <= 100) {
+  if (vert <= 200) {
     down = false;
     up = true;
   } else if (vert >= 1000) {
     down = true;
     up = false;
-    
   } else {
     down = false;
     up = false;
@@ -218,11 +226,12 @@ void endscreen(){
   lcd.setCursor(4,3);
   lcd.print("Retry");
   lcd.setCursor(8,0);
-  lcd.write(3);
+  lcd.write(13);
   if (push) {
       end = false;
       clearLine(1);
       resetall();
+      char_sel = true;
   }
   delay(500);
 }
@@ -254,18 +263,18 @@ string_t names[] = {
   "",
   "",
   "Geist",
-  "Martin",
+  "Mate",
   "Anselm",
   "Big Man"
 };
 
-uint8_t selCharacter = 0;
+uint8_t selCharacter = 3;
 
 void charMenu() {
 
   //Printet die auswählbaren Characters
     lcd.setCursor(2, 3);
-    lcd.write(byte(3));
+    lcd.write(byte(12));
     lcd.setCursor(4, 3);
     lcd.write(byte(4));
     lcd.setCursor(6, 3);
@@ -280,7 +289,7 @@ void charMenu() {
         selCharacter = 3;
       }
       lcd.setCursor(selCharacter*2 - 4, 2);
-      lcd.write(byte(9));
+      lcd.write(11);
     } else if (right){
       selCharacter++;
       if (selCharacter > 6){
@@ -288,10 +297,12 @@ void charMenu() {
       }
       lcd.clear();
       lcd.setCursor(selCharacter*2 - 4, 2);
-      lcd.write(byte(9));
+      // Draw arrow
+      lcd.write(11);
     } else {
       lcd.setCursor(selCharacter*2 - 4, 2);
-      lcd.write(byte(9));
+      // Draw arrow
+      lcd.write(11);
     }
     
     //Print CharName
@@ -299,16 +310,17 @@ void charMenu() {
     lcd.print(names[selCharacter]);
     
     //Select
-    if (push){
+    if (push) {
       lcd.clear();
       char_sel = false;
       lcd.setCursor(8, 1);
-      lcd.print("done");
+      lcd.print("Selected");
       lcd.setCursor(10, 2);
       lcd.write(selCharacter);
+      selectedPlayerSkin = selCharacter;
       lcd.setCursor(10, 0);
       lcd.print(names[selCharacter]);
-      delay(5000);
+      delay(2000);
     }
   delay(100);
   lcd.clear();
