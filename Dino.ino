@@ -26,6 +26,7 @@ bool up = false;
 bool push = false;
 
 bool end = false;
+bool char_sel = false;
 
 uint8_t cacti[LCD_COLUMNS];
 uint8_t cacti_amount = 0;
@@ -56,28 +57,21 @@ void setup() {
   lcd.createChar(0, grossKak);
   lcd.createChar(1, kleinKak);
   lcd.createChar(2, boden);
-  lcd.createChar(3, geist);
+  lcd.createChar(3, skull);
   lcd.createChar(4, figurnoface);
   lcd.createChar(5, drittefigur);
   lcd.createChar(6, Ardolino);
-  lcd.createChar(10, arrow);
-
-  //Player
-  drawPlayer();
-  
-  //Test
-  lcd.setCursor(3, 0);
-  //lcd.write(0);
-  lcd.setCursor(3, 1);
-  //lcd.write(1);
-  lcd.setCursor(3, 2);
-  lcd.write(2);
+  lcd.createChar(10, boden);
 }
 
 void loop() {
-  if (!end) {
+  if (char_sel) {
+    charMenu();
+  }
+
+  if (!end && !char_sel) {
     punktestand++;
-    if (up) {
+    if (up && !jumping) {
       startJump();
     }
     drawGround();
@@ -86,11 +80,13 @@ void loop() {
     handleJump();
     drawpunktestand();
     joystick();
-    delay(250);
+    delay(200);
     press();
     collide();
     triggerEnd();
-  } else {
+  }
+
+  if (end) {
     endscreen();
     press();
   }
@@ -100,7 +96,7 @@ void loop() {
 void drawGround() {
   for (uint8_t x = 0; x < LCD_COLUMNS; x++) {
     lcd.setCursor(x, LCD_LINES-1);    
-    lcd.write(2);
+    lcd.write(byte(2));
   }
 }
 
@@ -127,7 +123,7 @@ void drawCactus() {
   clearLine(2);
   for (uint8_t x = 0; x < cacti_amount; x++) {
     lcd.setCursor(cacti[x], 2);
-    lcd.print("V");
+    lcd.write(0);
     if (cacti[x] <= 0) {
       removed_amount++;
     }
@@ -208,7 +204,7 @@ void cleanup_array(uint8_t *arr, uint8_t arr_len, uint8_t offset) {
 }
 
 void collide() {
-  if (cacti[0] == 3 && !jumping) {
+  if (cacti_amount != 0 && cacti[0] == 3 && !jumping) {
     end = true;
   }
 }
@@ -221,8 +217,8 @@ void endscreen(){
   lcd.print(punktestand);
   lcd.setCursor(4,3);
   lcd.print("Retry");
-  lcd.setCursor(5,0);
-  lcd.createChar(0, skull);
+  lcd.setCursor(8,0);
+  lcd.write(3);
   if (push) {
       end = false;
       clearLine(1);
@@ -254,81 +250,66 @@ void resetall(){
 typedef char *string_t;
 
 string_t names[] = {
-  "appleh",
-  "grossa Kak",
-  "kleina Kak",
-  "boden"
+  "",
+  "",
+  "",
+  "Geist",
+  "Martin",
+  "Anselm",
+  "Big Man"
 };
 
 uint8_t selCharacter = 0;
-bool charMenu = true;
-bool changedPress = false;
 
-void CharMenu() {
+void charMenu() {
 
-  uint16_t vert = analogRead(VERT_PIN);
-  uint16_t horz = analogRead(HORZ_PIN);
-  bool pressed = digitalRead(SEL_PIN) == LOW;
-  
   //Printet die auswählbaren Characters
-  if (charMenu) {
     lcd.setCursor(2, 3);
-    lcd.write(0);
+    lcd.write(byte(3));
     lcd.setCursor(4, 3);
-    lcd.write(1);
+    lcd.write(byte(4));
     lcd.setCursor(6, 3);
-    lcd.write(2);
+    lcd.write(byte(5));
     lcd.setCursor(8, 3);
-    lcd.write(3);
+    lcd.write(byte(6));
+
     //Verschiebt Arrow
     if (left){
       selCharacter--;
-      if (selCharacter > 3){
-        selCharacter = 0;
-      }
-      lcd.setCursor(selCharacter*2 + 2, 2);
-      lcd.write(4);
-    } else if (right){
-      selCharacter++;
-      //Checkt, ob die Selectnummer des Arrows größer is als die Anzahl an Characters
-            if (selCharacter > 3){
+      if (selCharacter > 6){
         selCharacter = 3;
       }
+      lcd.setCursor(selCharacter*2 - 4, 2);
+      lcd.write(byte(9));
+    } else if (right){
+      selCharacter++;
+      if (selCharacter > 6){
+        selCharacter = 6;
+      }
       lcd.clear();
-      lcd.setCursor(selCharacter*2 + 2, 2);
-      lcd.write(4);
+      lcd.setCursor(selCharacter*2 - 4, 2);
+      lcd.write(byte(9));
     } else {
-      lcd.setCursor(selCharacter*2 + 2, 2);
-      lcd.write(4);
+      lcd.setCursor(selCharacter*2 - 4, 2);
+      lcd.write(byte(9));
     }
+    
     //Print CharName
     lcd.setCursor(10, 0);
     lcd.print(names[selCharacter]);
+    
     //Select
-    if (pressed){
+    if (push){
       lcd.clear();
-      charMenu = false;
+      char_sel = false;
       lcd.setCursor(8, 1);
       lcd.print("done");
       lcd.setCursor(10, 2);
       lcd.write(selCharacter);
       lcd.setCursor(10, 0);
       lcd.print(names[selCharacter]);
-      while (!pressed){
-        delay(100);
-      }
-      charMenu = true;
+      delay(5000);
     }
-  }
   delay(100);
   lcd.clear();
 }
-/*
-void changedPress(){
-  if (changedPress == false && pressed == false){
-    if (pressed == true){
-      changedPress = true;
-    }
-  } else if (changedPress == true && pressed == false){
-}
-*/
