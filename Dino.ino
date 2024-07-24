@@ -87,8 +87,9 @@ void setup() {
 
 void loop() {
   if (curScreen==STARTSCREEN) {
-    startscreen();
+    createStartElements();
     handleInput();
+    startscreen();
   } else if (curScreen == CHAR_SEL_SCREEN) {
     createGeneralElements();
     handleInput();
@@ -275,17 +276,18 @@ void handleCollision() {
 }
 void startscreen(){
   lcd.setCursor(7,1);
-  createStartElements();
-  for (uint8_t x; x < 4; x++){
+  //Printet Title
+  for (uint8_t x = 0; x < 4; x++){
     lcd.setCursor(x + 8, 0);
     lcd.write(x * 2);
   }
-  for (uint8_t x; x < 4; x++){
+  for (uint8_t x = 0; x < 4; x++){
     lcd.setCursor(x + 8, 1);
     lcd.write(x * 2 + 1);
   }
-  lcd.setCursor(3,2);
+  lcd.setCursor(3,3);
   lcd.print("PRESS TO START");
+  //Printet Randlinien
   for (uint8_t x = 0; x < 4; x++) {
     lcd.setCursor(0 , x);
     lcd.print("|");
@@ -362,6 +364,16 @@ void charSelScreen() {
   lcd.write(byte(2));
   lcd.setCursor(13, 3);
   lcd.write(byte(3));
+  
+  //Printet Randlinien
+  for (uint8_t x = 0; x < 4; x++) {
+    lcd.setCursor(0 , x);
+    lcd.print("|");
+  }
+  for (uint8_t x = 0; x < 4; x++) {
+    lcd.setCursor(19 , x);
+    lcd.print("|");
+  }
 
   // Verschiebt Arrow
   if (left) {
@@ -371,7 +383,9 @@ void charSelScreen() {
     }
     lcd.setCursor(selCharacter * 2 + 7, 2);
     lcd.write(byte(4));
-    lcd.clear();
+    clearLineStart(0);
+    clearLineStart(2);
+    clearLineStart(3);
   } else if (right) {
     selCharacter++;
     if (selCharacter > 3) {
@@ -380,7 +394,9 @@ void charSelScreen() {
     lcd.setCursor(selCharacter * 2 + 7, 2);
     // Draw arrow
     lcd.write(byte(4));
-    lcd.clear();
+    clearLineStart(0);
+    clearLineStart(2);
+    clearLineStart(3);
   } else {
     lcd.setCursor(selCharacter * 2 + 7, 2);
     // Draw arrow
@@ -405,11 +421,11 @@ void charSelScreen() {
   delay(100);
 }
 
-
 void resetHighscore() {
   bool but = digitalRead(BUT_PIN);
 
   if (but == LOW) {
-    EEPROM.write(HIGH_SCORE_ADDR, 0);  
-    }
+    highscore = 0;
+    EEPROM.write(HIGH_SCORE_ADDR, highscore);  
+  }
 }
