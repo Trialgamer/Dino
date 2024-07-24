@@ -5,6 +5,7 @@
 #include "aelements.h"
 #include <LiquidCrystal_I2C.h>
 #include <stdint.h>
+#include <EEPROM.h>
 
 #define I2C_ADDR 0x27
 // Die Display Adresse
@@ -20,6 +21,7 @@ struct Cactus {
 };
 
 uint16_t score = 0;
+uint8_t gameDelay = 200;
 
 uint8_t playerPos = 2;
 bool jumping = false;
@@ -42,6 +44,8 @@ bool push = false;
 #define CHAR_SEL_SCREEN 1
 #define GAME_SCREEN 2
 #define END_SCREEN 3
+
+#define HIGH_SCORE_ADDR 0
 
 #define DISTANCE_BEFORE_CACTUS 3
 
@@ -79,6 +83,8 @@ void setup() {
 }
 
 void loop() {
+  lcd.setCursor(0, 0);
+  lcd.print(EEPROM.read(0));
   if (curScreen==STARTSCREEN) {
     startscreen();
     handleInput();
@@ -87,7 +93,12 @@ void loop() {
     handleInput();
     charSelScreen();
   } else if (curScreen == GAME_SCREEN) {
-      createGeneralElements();
+    lcd.setCursor(10, 0);
+    lcd.print(EEPROM.read(HIGH_SCORE_ADDR));
+    if (score % 20 == 0){
+      gameDelay -= 2;
+    }
+    createGeneralElements();
     // Handle stuff
     handleInput();
     handleJump();
@@ -100,9 +111,9 @@ void loop() {
     drawGround();
     drawCacti();
     drawPlayer();
-    drawScore();
+    //drawScore();
     // Delay so the game is playable
-    delay(200);
+    delay(gameDelay);
   } else if (curScreen == END_SCREEN) {
     createEndElements();
     handleInput();
@@ -252,9 +263,16 @@ void startscreen(){
   lcd.print("D.INO");
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
-  
-  delay(250);
-  clearLine(2);
+  for (int x = 0; x < 4; x++) {
+  lcd.setCursor(0,x);
+  lcd.print("|");
+  }
+  for (int x = 0; x < 4; x++) {
+  lcd.setCursor(19,x);
+  lcd.print("|");
+  }
+  delay(255);
+  clearLineStart(2);
   if (push||left||right||up||down){
     curScreen=CHAR_SEL_SCREEN;
     lcd.clear();
@@ -274,6 +292,7 @@ void endscreen() {
   if (push) {
     curScreen = STARTSCREEN;
     clearLine(1);
+    EEPROM.write(HIGH_SCORE_ADDR, score);
     resetAll();
     push = false;
   }
@@ -283,6 +302,10 @@ void endscreen() {
 void clearLine(uint8_t line) {
   lcd.setCursor(0, line);
   lcd.print("                     ");
+}
+void clearLineStart(uint8_t line) {
+  lcd.setCursor(3, line);
+  lcd.print("              ");
 }
 void resetAll() {
   lcd.clear();
@@ -336,8 +359,6 @@ void charSelScreen() {
     // Draw arrow
     lcd.write(byte(4));
   }
-
-
 
   // Select
   if (push) {
