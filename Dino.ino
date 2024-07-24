@@ -247,9 +247,9 @@ void endscreen() {
   lcd.clear();
   lcd.setCursor(5, 1);
   lcd.print("Game Over");
-  lcd.setCursor(6, 2);
+  lcd.setCursor(8, 2);
   lcd.print(score);
-  lcd.setCursor(8, 3);
+  lcd.setCursor(6, 3);
   lcd.print("Restart");
   lcd.setCursor(9, 0);
   lcd.write(byte(5));
@@ -281,7 +281,7 @@ uint8_t selCharacter = 3;
 
 void charSelScreen() {
   // Print CharName
-  lcd.setCursor(10, 0);
+  lcd.setCursor(0, 0);
   lcd.print(names[selCharacter]);
   
   // Printet die auswählbaren Characters
