@@ -114,8 +114,6 @@ void createElements() {
 
   lcd.createChar(6, boden);
   lcd.createChar(7, grossKak);
-
-  //lcd.createChar(8, dot_i);
 }
 
 void listenForJoystickInput() {
