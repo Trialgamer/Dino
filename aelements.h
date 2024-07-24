@@ -56,28 +56,6 @@ BitTexture geist = {
   B10101,
   B00000
 };
-//Geist Laufanimation
-BitTexture laufanimation2 = {  
-  B01110,  
-  B11111,  
-  B10101,  
-  B11111,  
-  B11111,  
-  B01010,
-  B10100,
-  B00000
-};
-//Geist Springanimation
-BitTexture geistsprung = {  
-  B11111,  
-  B11111,  
-  B10101,  
-  B11111,  
-  B11111,  
-  B10101,
-  B00000,
-  B00000
-};
 //1.Figur(die ohne Gesicht)
 BitTexture mate = {  
   B01110,
@@ -88,39 +66,6 @@ BitTexture mate = {
   B11011,
   B01110,
   B11011
-};
-//Laufanimation 1
-BitTexture laufanimationka = {  
-  B01110,  
-  B10001,  
-  B10001,  
-  B10001,  
-  B01110,  
-  B11011,
-  B01110,
-  B11001
-};
-//Laufanimation 2
-BitTexture cus = {  
-  B01110,  
-  B10001,  
-  B10001,  
-  B10001,  
-  B01110,  
-  B11011,
-  B01110,
-  B10011
-};
-//Springanimation
-BitTexture laufmonika = {  
-  B01110,  
-  B10001,  
-  B10001,  
-  B10001,  
-  B01110,  
-  B11011,
-  B11111,
-  B00000
 };
 //3.Figur
 BitTexture anselm = {  
@@ -133,39 +78,7 @@ BitTexture anselm = {
   B01010,
   B01010
 };
-//Laufanimation 1
-BitTexture laufanimation31 = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B01110,
-  B11111,  
-  B01111,
-  B01010,
-  B11001
-};
-//Laufanimation 2
-BitTexture laufanimation32 = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B01110,  
-  B11111,  
-  B11110,
-  B01011,
-  B10001
-};
-//Springanimation
-BitTexture sprunganimation3 = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B01110,  
-  B11111,  
-  B11111,
-  B01010,
-  B10100
-};
+
 //4.Figur
 BitTexture bigman = {  
   B11111,  
@@ -176,39 +89,6 @@ BitTexture bigman = {
   B01010,
   B01010,
   B11011
-};
-//Laufanimation 1 von 4 Figur
-BitTexture Laufgitti = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B11111,  
-  B11111,  
-  B01010,
-  B01001,
-  B10001
-};
-//Laufanimation 2 von der 4. Figur
-BitTexture laufbertrut = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B11111,  
-  B11111,  
-  B01010,
-  B01010,
-  B10010
-};
-//Sprunganimation von der 4. Figur
-BitTexture Sprungbrute = {  
-  B11111,  
-  B10101,  
-  B11111,  
-  B11111,  
-  B11111,  
-  B01010,
-  B11011,
-  B00000
 };
 //Totenschaedel
 BitTexture skull = {  

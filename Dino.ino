@@ -235,6 +235,8 @@ void startscreen(){
   lcd.print("D.INO");
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
+  delay(250);
+  clearLine(2);
   if (push||left||right||up||down){
     curScreen=CHAR_SEL_SCREEN;
     lcd.clear();
