@@ -14,6 +14,11 @@
 // Anzahl der Zeilen
 LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES);
 
+struct Cactus {
+  uint8_t x;
+  bool tall;
+};
+
 uint16_t score = 0;
 
 uint8_t playerPos = 2;
@@ -45,7 +50,7 @@ bool push = false;
 // 2 = end screen
 uint8_t curScreen = 0;
 
-uint8_t cacti[LCD_COLUMNS];
+Cactus cacti[LCD_COLUMNS];
 uint8_t cacti_amount = 0;
 
 uint8_t cactus_distance = 0;
@@ -74,14 +79,15 @@ void setup() {
 }
 
 void loop() {
-  createElements();
-if(curScreen==STARTSCREEN ){
-  startscreen();
-  handleInput();
-} else if (curScreen == CHAR_SEL_SCREEN) {
+  if (curScreen==STARTSCREEN) {
+    startscreen();
+    handleInput();
+  } else if (curScreen == CHAR_SEL_SCREEN) {
+    createGeneralElements();
     handleInput();
     charSelScreen();
   } else if (curScreen == GAME_SCREEN) {
+      createGeneralElements();
     // Handle stuff
     handleInput();
     handleJump();
@@ -98,22 +104,27 @@ if(curScreen==STARTSCREEN ){
     // Delay so the game is playable
     delay(200);
   } else if (curScreen == END_SCREEN) {
+    createEndElements();
     handleInput();
     endscreen();
   }
 }
 
-void createElements() {
+void createGeneralElements() {
   // Erstellen der Custom Chars
   lcd.createChar(0, geist);
   lcd.createChar(1, mate);
   lcd.createChar(2, anselm);
   lcd.createChar(3, bigman);
   lcd.createChar(4, arrow);
-  lcd.createChar(5, skull);
 
-  lcd.createChar(6, boden);
-  lcd.createChar(7, grossKak);
+  lcd.createChar(5, boden);
+  lcd.createChar(6, grossKak);
+  lcd.createChar(7, kleinKak);
+}
+
+void createEndElements() {
+  lcd.createChar(0, skull);
 }
 
 void listenForJoystickInput() {
@@ -125,16 +136,22 @@ void listenForJoystickInput() {
 void drawGround() {
   for (uint8_t x = 0; x < LCD_COLUMNS; x++) {
     lcd.setCursor(x, LCD_LINES - 1);
-    lcd.write(byte(6));
+    lcd.write(byte(5));
   }
 }
 
 void drawCacti() {
   // Generate new cacti based on a random chance
-  uint8_t rand_int = random(0, 6);
+  uint8_t rand_int = random(0, 18);
 
   if (cactus_distance >= DISTANCE_BEFORE_CACTUS && rand_int == 1) {
-    cacti[cacti_amount] = LCD_COLUMNS - 1;
+    cacti[cacti_amount].x = LCD_COLUMNS - 1;
+    cacti[cacti_amount].tall = true;
+    cacti_amount++;
+    cactus_distance = 0;
+  } else if (cactus_distance >= DISTANCE_BEFORE_CACTUS && (rand_int == 2 || rand_int == 3)) {
+    cacti[cacti_amount].x = LCD_COLUMNS - 1;
+    cacti[cacti_amount].tall = false;
     cacti_amount++;
     cactus_distance = 0;
   }
@@ -144,12 +161,12 @@ void drawCacti() {
 
   clearLine(2);
   for (uint8_t x = 0; x < cacti_amount; x++) {
-    lcd.setCursor(cacti[x], 2);
-    lcd.write(byte(7));
-    if (cacti[x] <= 0) {
+    lcd.setCursor(cacti[x].x, 2);
+    if (cacti[x].tall) {lcd.write(byte(6));} else {lcd.write(byte(7));}
+    if (cacti[x].x <= 0) {
       removed_amount++;
     }
-    cacti[x]--;
+    cacti[x].x--;
   }
 
   cleanup_array(cacti, cacti_amount, removed_amount);
@@ -219,14 +236,14 @@ void handleJump() {
 
 void press() {}
 
-void cleanup_array(uint8_t *arr, uint8_t arr_len, uint8_t offset) {
+void cleanup_array(Cactus *arr, uint8_t arr_len, uint8_t offset) {
   for (uint8_t i = offset; i < arr_len; i++) {
     arr[i - offset] = arr[i];
   }
 }
 
 void handleCollision() {
-  if (cacti_amount != 0 && cacti[0] == 3 && !jumping) {
+  if (cacti_amount != 0 && cacti[0].x == 3 && !jumping) {
     curScreen = END_SCREEN;
   }
 }
@@ -235,6 +252,7 @@ void startscreen(){
   lcd.print("D.INO");
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
+  
   delay(250);
   clearLine(2);
   if (push||left||right||up||down){
@@ -252,7 +270,7 @@ void endscreen() {
   lcd.setCursor(6, 3);
   lcd.print("Restart");
   lcd.setCursor(9, 0);
-  lcd.write(byte(5));
+  lcd.write(byte(0));
   if (push) {
     curScreen = STARTSCREEN;
     clearLine(1);
