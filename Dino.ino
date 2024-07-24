@@ -276,18 +276,22 @@ void handleCollision() {
 void startscreen(){
   lcd.setCursor(7,1);
   createStartElements();
-  for (int x; x < 4; x++){
-    lcd.setCursor(x + 7, 0);
+  for (uint8_t x; x < 4; x++){
+    lcd.setCursor(x + 8, 0);
     lcd.write(x * 2);
+  }
+  for (uint8_t x; x < 4; x++){
+    lcd.setCursor(x + 8, 1);
+    lcd.write(x * 2 + 1);
   }
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
-  for (int x = 0; x < 4; x++) {
-    lcd.setCursor(0,x);
+  for (uint8_t x = 0; x < 4; x++) {
+    lcd.setCursor(0 , x);
     lcd.print("|");
   }
-  for (int x = 0; x < 4; x++) {
-    lcd.setCursor(19,x);
+  for (uint8_t x = 0; x < 4; x++) {
+    lcd.setCursor(19 , x);
     lcd.print("|");
   }
   delay(255);
