@@ -82,6 +82,7 @@ void setup() {
 
   // Button
   pinMode(BUT_PIN, INPUT_PULLUP);
+  highscore = EEPROM.read(HIGH_SCORE_ADDR);
 }
 
 void loop() {
@@ -111,7 +112,7 @@ void loop() {
     drawGround();
     drawCacti();
     drawPlayer();
-    //drawScore();
+    drawScore();
     lcd.setCursor(10, 0);
     lcd.print(highscore);
     // Delay so the game is playable
@@ -298,7 +299,7 @@ void endscreen() {
   if (push) {
     curScreen = STARTSCREEN;
     clearLine(1);
-    EEPROM.write(HIGH_SCORE_ADDR, score);
+    EEPROM.write(HIGH_SCORE_ADDR, highscore);
     resetAll();
     push = false;
   }
