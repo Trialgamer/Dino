@@ -79,7 +79,7 @@ BitTexture geistsprung = {
   B00000
 };
 //1.Figur(die ohne Gesicht)
-BitTexture figurnoface = {  
+BitTexture mate = {  
   B01110,
   B10001,  
   B10001,  
@@ -123,7 +123,7 @@ BitTexture laufmonika = {
   B00000
 };
 //3.Figur
-BitTexture drittefigur = {  
+BitTexture anselm = {  
   B11111,  
   B10101,  
   B11111,  
@@ -167,7 +167,7 @@ BitTexture sprunganimation3 = {
   B10100
 };
 //4.Figur
-BitTexture ardolino = {  
+BitTexture bigman = {  
   B11111,  
   B10101,  
   B11111,  
@@ -220,4 +220,15 @@ BitTexture skull = {
   B01110,
   B01110,
   B00000
+};
+//.I (Startscreen)
+BitTexture dot_i = {
+  B00111,
+  B00010,
+  B00010,
+  B00010,
+  B00010,
+  B00010,
+  B00010,
+  B10111
 };
