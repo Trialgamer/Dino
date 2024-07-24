@@ -78,8 +78,7 @@ void loop() {
 if(curScreen==STARTSCREEN ){
   startscreen();
   handleInput();
-}
-  else if (curScreen == CHAR_SEL_SCREEN) {
+} else if (curScreen == CHAR_SEL_SCREEN) {
     handleInput();
     charSelScreen();
   } else if (curScreen == GAME_SCREEN) {
@@ -115,6 +114,8 @@ void createElements() {
 
   lcd.createChar(6, boden);
   lcd.createChar(7, grossKak);
+
+  //lcd.createChar(8, dot_i);
 }
 
 void listenForJoystickInput() {
@@ -232,14 +233,13 @@ void handleCollision() {
   }
 }
 void startscreen(){
-  lcd.clear();
   lcd.setCursor(7,1);
   lcd.print("D.INO");
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
   if (push||left||right||up||down){
-    lcd.clear();
     curScreen=CHAR_SEL_SCREEN;
+    lcd.clear();
   }
 }
 
@@ -257,6 +257,7 @@ void endscreen() {
     curScreen = STARTSCREEN;
     clearLine(1);
     resetAll();
+    push = false;
   }
   delay(500);
 }
