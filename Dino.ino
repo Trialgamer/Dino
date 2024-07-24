@@ -122,6 +122,7 @@ void loop() {
     handleInput();
     endscreen();
   }
+  resetHighscore();
 }
 
 void createGeneralElements() {
@@ -385,12 +386,11 @@ void charSelScreen() {
   delay(100);
 }
 
-/*
-void triggerEnd() {
+
+void resetHighscore() {
   bool but = digitalRead(BUT_PIN);
 
   if (but == LOW) {
-    end = true;
-  }
+    EEPROM.write(HIGH_SCORE_ADDR, 0);  
+    }
 }
-*/
