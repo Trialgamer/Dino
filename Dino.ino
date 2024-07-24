@@ -278,7 +278,7 @@ void startscreen(){
   createStartElements();
   for (int x; x < 4; x++){
     lcd.setCursor(x + 7, 0);
-    lcd.write(x*2);
+    lcd.write(x * 2);
   }
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
