@@ -94,8 +94,6 @@ void loop() {
     handleInput();
     charSelScreen();
   } else if (curScreen == GAME_SCREEN) {
-    lcd.setCursor(10, 0);
-    lcd.print(EEPROM.read(HIGH_SCORE_ADDR));
     if (score % 20 == 0){
       gameDelay -= 2;
     }
@@ -113,7 +111,8 @@ void loop() {
     drawCacti();
     drawPlayer();
     drawScore();
-    lcd.setCursor(10, 0);
+    lcd.setCursor(14, 0);
+    lcd.print("H:");
     lcd.print(highscore);
     // Delay so the game is playable
     delay(gameDelay);
@@ -136,6 +135,18 @@ void createGeneralElements() {
   lcd.createChar(5, boden);
   lcd.createChar(6, grossKak);
   lcd.createChar(7, kleinKak);
+}
+
+void createStartElements() {
+  // Erstellen der Custom Startscreen Chars
+  lcd.createChar(0, D_Top);
+  lcd.createChar(1, D_Bot);
+  lcd.createChar(2, dot_I_Top);
+  lcd.createChar(3, dot_I_Bot);
+  lcd.createChar(4, N_Top);
+  lcd.createChar(5, N_Bot);
+  lcd.createChar(6, O_Top);
+  lcd.createChar(7, O_Bot);
 }
 
 void createEndElements() {
@@ -264,7 +275,11 @@ void handleCollision() {
 }
 void startscreen(){
   lcd.setCursor(7,1);
-  lcd.print("D.INO");
+  createStartElements();
+  for (int x; x < 4; x++){
+    lcd.setCursor(x + 7, 0);
+    lcd.write(x*2);
+  }
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
   for (int x = 0; x < 4; x++) {

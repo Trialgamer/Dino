@@ -125,7 +125,7 @@ BitTexture D_Bot = {
   B11100
 };
 //.I (SC)
-BitTexture dot_i_Top = {
+BitTexture dot_I_Top = {
   B00011,
   B00011,
   B00011,
@@ -135,7 +135,7 @@ BitTexture dot_i_Top = {
   B00011,
   B00011
 };
-BitTexture dot_i_Bot = {
+BitTexture dot_I_Bot = {
   B00011,
   B00011,
   B00011,
@@ -169,21 +169,21 @@ BitTexture N_Bot = {
 //O (SC)
 BitTexture O_Top = {
   B01110,
-  B010,
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000
+  B11111,
+  B11011,
+  B11011,
+  B11011,
+  B11011,
+  B11011,
+  B11011,
 };
 BitTexture O_Bot = {
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000,
-  B00000
+  B11011,
+  B11011,
+  B11011,
+  B11011,
+  B11011,
+  B11011,
+  B11111,
+  B01110,
 };
