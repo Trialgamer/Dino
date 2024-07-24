@@ -21,6 +21,8 @@ struct Cactus {
 };
 
 uint16_t score = 0;
+uint16_t highscore = 0;
+
 uint8_t gameDelay = 200;
 
 uint8_t playerPos = 2;
@@ -83,8 +85,6 @@ void setup() {
 }
 
 void loop() {
-  lcd.setCursor(0, 0);
-  lcd.print(EEPROM.read(0));
   if (curScreen==STARTSCREEN) {
     startscreen();
     handleInput();
@@ -112,6 +112,8 @@ void loop() {
     drawCacti();
     drawPlayer();
     //drawScore();
+    lcd.setCursor(10, 0);
+    lcd.print(highscore);
     // Delay so the game is playable
     delay(gameDelay);
   } else if (curScreen == END_SCREEN) {
@@ -264,16 +266,17 @@ void startscreen(){
   lcd.setCursor(3,2);
   lcd.print("PRESS TO START");
   for (int x = 0; x < 4; x++) {
-  lcd.setCursor(0,x);
-  lcd.print("|");
+    lcd.setCursor(0,x);
+    lcd.print("|");
   }
   for (int x = 0; x < 4; x++) {
-  lcd.setCursor(19,x);
-  lcd.print("|");
+    lcd.setCursor(19,x);
+    lcd.print("|");
   }
   delay(255);
   clearLineStart(2);
-  if (push||left||right||up||down){
+  if (push || left || right || up || down) {
+    highscore = EEPROM.read(HIGH_SCORE_ADDR);
     curScreen=CHAR_SEL_SCREEN;
     lcd.clear();
   }
@@ -289,6 +292,9 @@ void endscreen() {
   lcd.print("Restart");
   lcd.setCursor(9, 0);
   lcd.write(byte(0));
+  if (score > highscore) {
+    highscore = score;
+  }
   if (push) {
     curScreen = STARTSCREEN;
     clearLine(1);
@@ -323,17 +329,17 @@ uint8_t selCharacter = 3;
 
 void charSelScreen() {
   // Print CharName
-  lcd.setCursor(0, 0);
+  lcd.setCursor(7, 0);
   lcd.print(names[selCharacter]);
   
   // Printet die auswählbaren Characters
-  lcd.setCursor(2, 3);
+  lcd.setCursor(7, 3);
   lcd.write(byte(0));
-  lcd.setCursor(4, 3);
+  lcd.setCursor(9, 3);
   lcd.write(byte(1));
-  lcd.setCursor(6, 3);
+  lcd.setCursor(11, 3);
   lcd.write(byte(2));
-  lcd.setCursor(8, 3);
+  lcd.setCursor(13, 3);
   lcd.write(byte(3));
 
   // Verschiebt Arrow
@@ -342,7 +348,7 @@ void charSelScreen() {
     if (selCharacter > 3) {
       selCharacter = 0;
     }
-    lcd.setCursor(selCharacter * 2 + 2, 2);
+    lcd.setCursor(selCharacter * 2 + 7, 2);
     lcd.write(byte(4));
     lcd.clear();
   } else if (right) {
@@ -350,12 +356,12 @@ void charSelScreen() {
     if (selCharacter > 3) {
       selCharacter = 3;
     }
-    lcd.setCursor(selCharacter * 2 + 2, 2);
+    lcd.setCursor(selCharacter * 2 + 7, 2);
     // Draw arrow
     lcd.write(byte(4));
     lcd.clear();
   } else {
-    lcd.setCursor(selCharacter * 2 + 2, 2);
+    lcd.setCursor(selCharacter * 2 + 7, 2);
     // Draw arrow
     lcd.write(byte(4));
   }

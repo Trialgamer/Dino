@@ -101,7 +101,29 @@ BitTexture skull = {
   B01110,
   B00000
 };
-//.I (Startscreen)
+//D Top (SC)
+BitTexture D_Top = {
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000
+};
+//D Top (SC)
+BitTexture D_Bot = {
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000
+};
+//.I (SC)
 BitTexture dot_i = {
   B00111,
   B00010,
